@@ -21,14 +21,17 @@ class HeartRateDataSource(private val healthServicesClient: HealthServicesClient
                 .setDataTypes(setOf(DataType.HEART_RATE_BPM))
                 .build()
 
-            client.setPassiveListenerCallback(config, object : PassiveListenerCallback {
-                override fun onNewDataPointsReceived(dataPoints: DataPointContainer) {
-                    val bpm = dataPoints.getData(DataType.HEART_RATE_BPM)
-                        .lastOrNull()?.value?.asDouble()?.toInt() ?: return
-                    _heartRate.value = bpm
-                }
-            })
-        } catch (e: Exception) {
+            client.setPassiveListenerCallback(
+                config,
+                object : PassiveListenerCallback {
+                    override fun onNewDataPointsReceived(dataPoints: DataPointContainer) {
+                        val bpm = dataPoints.getData(DataType.HEART_RATE_BPM)
+                            .lastOrNull()?.value?.toInt() ?: return
+                        _heartRate.value = bpm
+                    }
+                },
+            )
+        } catch (_: Exception) {
             // Manejo de excepción en caso de que falten permisos en tiempo de ejecución
         }
     }

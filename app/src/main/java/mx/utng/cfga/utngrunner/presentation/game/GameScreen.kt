@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Text
+import kotlinx.coroutines.delay
 import mx.utng.cfga.utngrunner.presentation.domain.model.GamePhase
 
 @Composable
@@ -55,12 +56,14 @@ fun GameScreen(viewModel: GameViewModel) {
             .fillMaxSize()
             .background(Color.Black)
             .focusRequester(focusRequester)
-            .focusable()
-            // 👇 CAPTURA DE LA CORONA GIRATORIA
             .onRotaryScrollEvent {
-                if (it.verticalScrollPixels < 0) viewModel.onJump() else viewModel.onSlide()
+                // Invertimos la lógica o la simplificamos para que cualquier movimiento significativo salte
+                if (kotlin.math.abs(it.verticalScrollPixels) > 1f) {
+                    viewModel.onJump()
+                }
                 true
             }
+            .focusable()
             .clickable { viewModel.onJump() },
         contentAlignment = Alignment.Center
     ) {

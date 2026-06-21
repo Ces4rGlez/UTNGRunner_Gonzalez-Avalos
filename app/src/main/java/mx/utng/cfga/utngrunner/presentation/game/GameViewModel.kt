@@ -19,7 +19,7 @@ enum class HapticType { JUMP, HIT }
 class GameViewModel(
     private val getHighScore: GetHighScoreUseCase,
     private val saveHighScore: SaveHighScoreUseCase,
-    private val heartRateSource: HeartRateDataSource
+    private val heartRateSource: HeartRateDataSource,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(GameState())
@@ -57,7 +57,7 @@ class GameViewModel(
 
     fun onJump() {
         val current = _state.value
-        if (current.phase == GamePhase.IDLE || current.phase == GamePhase.DEAD) {
+        if ((current.phase == GamePhase.IDLE) || (current.phase == GamePhase.DEAD)) {
             startGame()
             return
         }

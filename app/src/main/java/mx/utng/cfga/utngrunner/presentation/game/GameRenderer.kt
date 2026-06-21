@@ -17,7 +17,7 @@ object GameRenderer {
             drawRect(color = Color(0xFF0F172A), size = size)
 
             // 2. Línea de Suelo (Piso del campus)
-            val floorLineY = Player.FLOOR_Y + 24f
+            val floorLineY = Player.FLOOR_Y
             drawLine(
                 color = Color(0xFF0284C7),
                 start = Offset(0f, floorLineY),
@@ -53,16 +53,16 @@ object GameRenderer {
             val isBlinking = player.isInvincible && (frame / 5) % 2 == 0L
             if (!isBlinking) {
                 val pHeight = if (player.isSliding) 14f else 28f
-                // Cuerpo del personaje
+                // El personaje se dibuja usando su coordenada Y real
                 drawRect(
                     color = Color(0xFF10B981),
-                    topLeft = Offset(player.x, floorLineY - pHeight),
+                    topLeft = Offset(player.x, player.y - pHeight),
                     size = Size(20f, pHeight)
                 )
                 // Casco distintivo institucional
                 drawRect(
                     color = Color(0xFF1E3A8A),
-                    topLeft = Offset(player.x + 2f, floorLineY - pHeight - 6f),
+                    topLeft = Offset(player.x + 2f, player.y - pHeight - 6f),
                     size = Size(16f, 6f)
                 )
             }
